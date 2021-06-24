@@ -22,14 +22,14 @@ class FlutterDropzoneView {
       ..id = id
       ..style.pointerEvents = 'auto'
       ..style.border = 'none'
-      ..style.height = '100%'
-      ..style.width = '100%'
       // idea from https://keithclark.co.uk/articles/working-with-elements-before-the-dom-is-ready/
       ..append(StyleElement()
         ..innerText =
             '@keyframes $id-animation {from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }}')
       ..style.animationName = '$id-animation'
       ..style.animationDuration = '0.001s'
+      ..style.height = '100%'
+      ..style.width = '100%'
       ..addEventListener('animationstart', (event) {
         _nativeCreate(
           container,
