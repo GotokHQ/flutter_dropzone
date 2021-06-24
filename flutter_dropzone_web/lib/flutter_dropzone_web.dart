@@ -22,8 +22,12 @@ class FlutterDropzoneView {
       ..id = id
       ..style.pointerEvents = 'auto'
       ..style.border = 'none'
+      ..style.height = '100%'
+      ..style.width = '100%'
       // idea from https://keithclark.co.uk/articles/working-with-elements-before-the-dom-is-ready/
-      ..append(StyleElement()..innerText = '@keyframes $id-animation {from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }}')
+      ..append(StyleElement()
+        ..innerText =
+            '@keyframes $id-animation {from { clip: rect(1px, auto, auto, auto); } to { clip: rect(0px, auto, auto, auto); }}')
       ..style.animationName = '$id-animation'
       ..style.animationDuration = '0.001s'
       ..addEventListener('animationstart', (event) {
@@ -56,7 +60,8 @@ class FlutterDropzoneView {
   }
 
   Future<bool> setCursor(CursorType cursor) async {
-    return _nativeSetCursor(container, describeEnum(cursor).toLowerCase().replaceAll('_', '-'));
+    return _nativeSetCursor(
+        container, describeEnum(cursor).toLowerCase().replaceAll('_', '-'));
   }
 
   Future<List<dynamic>> pickFiles(bool multiple) {
@@ -97,19 +102,26 @@ class FlutterDropzoneView {
     return completer.future;
   }
 
-  void _onLoaded() => FlutterDropzonePlatform.instance.events.add(DropzoneLoadedEvent(viewId));
+  void _onLoaded() =>
+      FlutterDropzonePlatform.instance.events.add(DropzoneLoadedEvent(viewId));
 
-  void _onError(String error) => FlutterDropzonePlatform.instance.events.add(DropzoneErrorEvent(viewId, error));
+  void _onError(String error) => FlutterDropzonePlatform.instance.events
+      .add(DropzoneErrorEvent(viewId, error));
 
-  void _onHover(MouseEvent event) => FlutterDropzonePlatform.instance.events.add(DropzoneHoverEvent(viewId));
+  void _onHover(MouseEvent event) =>
+      FlutterDropzonePlatform.instance.events.add(DropzoneHoverEvent(viewId));
 
-  void _onDrop(MouseEvent event, File data) => FlutterDropzonePlatform.instance.events.add(DropzoneDropEvent(viewId, data));
+  void _onDrop(MouseEvent event, File data) =>
+      FlutterDropzonePlatform.instance.events
+          .add(DropzoneDropEvent(viewId, data));
 
-  void _onLeave(MouseEvent event) => FlutterDropzonePlatform.instance.events.add(DropzoneLeaveEvent(viewId));
+  void _onLeave(MouseEvent event) =>
+      FlutterDropzonePlatform.instance.events.add(DropzoneLeaveEvent(viewId));
 }
 
 @JS('create')
-external void _nativeCreate(dynamic container, Function onLoaded, Function onError, Function onHover, Function onDrop, Function onLeave);
+external void _nativeCreate(dynamic container, Function onLoaded,
+    Function onError, Function onHover, Function onDrop, Function onLeave);
 
 @JS('setMIME')
 external bool _nativeSetMIME(dynamic container, List<String> mime);
