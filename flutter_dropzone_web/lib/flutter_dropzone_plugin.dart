@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dropzone_platform_interface/flutter_dropzone_platform_interface.dart';
 import 'package:flutter_dropzone_web/flutter_dropzone_web.dart';
-import 'package:flutter_dropzone_web/html_element_view.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 class FlutterDropzonePlugin extends FlutterDropzonePlatform {
@@ -58,8 +57,8 @@ class FlutterDropzonePlugin extends FlutterDropzonePlatform {
   }
 
   @override
-  Future<List<dynamic>> pickFiles(bool multiple, {required int viewId}) {
-    return _views[viewId]!.pickFiles(multiple);
+  Future<List<dynamic>> pickFiles(bool multiple, {List<String> mime = const [], required int viewId}) {
+    return _views[viewId]!.pickFiles(multiple, mime);
   }
 
   @override
@@ -78,6 +77,11 @@ class FlutterDropzonePlugin extends FlutterDropzonePlatform {
   }
 
   @override
+  Future<DateTime> getFileLastModified(dynamic htmlFile, {required int viewId}) {
+    return _views[viewId]!.getFileLastModified(htmlFile);
+  }
+
+  @override
   Future<String> createFileUrl(dynamic htmlFile, {required int viewId}) {
     return _views[viewId]!.createFileUrl(htmlFile);
   }
@@ -93,20 +97,23 @@ class FlutterDropzonePlugin extends FlutterDropzonePlatform {
   }
 
   @override
+  Stream<List<int>> getFileStream(dynamic htmlFile, {required int viewId}) {
+    return _views[viewId]!.getFileStream(htmlFile);
+  }
+
+  @override
   Widget buildView(Map<String, dynamic> creationParams, Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers, PlatformViewCreatedCallback onPlatformViewCreated) => FutureBuilder<bool>(
         future: _isReady,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            //TODO change to HtmlElementView when https://github.com/flutter/flutter/issues/56181 fixed
-            return HtmlElementViewEx(
+            return HtmlElementView(
               viewType: 'com.creativephotocloud.plugins/dropzone',
               onPlatformViewCreated: onPlatformViewCreated,
-              creationParams: creationParams,
             );
           } else if (snapshot.hasError)
-            return Center(child: Text('Error loading library'));
+            return const Center(child: Text('Error loading library'));
           else
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
         },
       );
 }

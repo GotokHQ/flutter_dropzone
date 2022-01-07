@@ -30,7 +30,7 @@ class MethodChannelFlutterDropzone extends FlutterDropzonePlatform {
   }
 
   @override
-  Future<List<dynamic>> pickFiles(bool multiple, {required int viewId}) {
+  Future<List<dynamic>> pickFiles(bool multiple, {List<String> mime = const [], required int viewId}) {
     throw UnsupportedError('DropzoneView: $defaultTargetPlatform is not supported');
   }
 
@@ -50,6 +50,11 @@ class MethodChannelFlutterDropzone extends FlutterDropzonePlatform {
   }
 
   @override
+  Future<DateTime> getFileLastModified(dynamic htmlFile, {required int viewId}) async {
+    throw UnsupportedError('DropzoneView: $defaultTargetPlatform is not supported');
+  }
+
+  @override
   Future<String> createFileUrl(dynamic htmlFile, {required int viewId}) async {
     throw UnsupportedError('DropzoneView: $defaultTargetPlatform is not supported');
   }
@@ -61,6 +66,11 @@ class MethodChannelFlutterDropzone extends FlutterDropzonePlatform {
 
   @override
   Future<Uint8List> getFileData(dynamic htmlFile, {required int viewId}) async {
+    throw UnsupportedError('DropzoneView: $defaultTargetPlatform is not supported');
+  }
+
+  @override
+  Stream<List<int>> getFileStream(dynamic htmlFile, {required int viewId}) async* {
     throw UnsupportedError('DropzoneView: $defaultTargetPlatform is not supported');
   }
 
